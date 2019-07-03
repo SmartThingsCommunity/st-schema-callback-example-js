@@ -137,6 +137,6 @@ curl -H 'Content-Type:application/json' \
 ```
 ## Did that, what's next?
 
-Check out the [ST Schema OAuth Example](https://github.com/SmartThingsCommunity/st-schema-oauth-example-js)
+Check out the [ST Schema OAuth Example](https://github.com/SmartThingsCommunity/st-schema-oauth-example)
 to see an example of a complete device cloud integration that connects to ST Schema with its own
 OAuth server and includes a simple web UI for testing proactive state callbacks.
