@@ -1,4 +1,4 @@
-# ST Schema Simple Example
+# ST Schema Callback Example
 
 This application builds on the [ST Schema Simple Example](https://github.com/SmartThingsCommunity/st-schema-simple-example-js)
 to all proactive state callbacks. Proactive state callbacks update the SmartThings cloud when a
