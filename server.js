@@ -14,12 +14,14 @@ server.use(express.json());
 server.use(morgan(":method :url :status :response-time ms"));
 connector.enableEventLogging(2);
 
+// Handles calls from SmartThings platform
 server.post('/', (req, res) => {
   if (accessTokenIsValid(req, res)) {
     connector.handleHttpCallback(req, res)
   }
 });
 
+// Handles command execution to allow callbacks to be demonstrated
 server.post('/command', async (req, res, next) => {
   try {
     deviceStates[req.body.name] = req.body.value;
