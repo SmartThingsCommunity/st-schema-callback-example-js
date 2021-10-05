@@ -1,12 +1,19 @@
+'use-strict';
+
 const {SchemaConnector} = require('st-schema');
+const db = require('./db')
+
 const deviceStates = {switch: 'off', level: 100};
-const accessTokens = {};
 const connector = new SchemaConnector()
   .clientId(process.env.ST_CLIENT_ID)
   .clientSecret(process.env.ST_CLIENT_SECRET)
+
   .discoveryHandler((accessToken, response) => {
     response.addDevice('external-device-1', 'Test Dimmer', 'c2c-dimmer')
+        .manufacturerName('STS')
+        .modelName('Test Dimmer')
   })
+
   .stateRefreshHandler((accessToken, response) => {
     response.addDevice('external-device-1', [
       {
@@ -23,6 +30,7 @@ const connector = new SchemaConnector()
       }
     ])
   })
+
   .commandHandler((accessToken, response, devices) => {
     for (const device of devices) {
       const deviceResponse = response.addDevice(device.externalDeviceId);
@@ -49,19 +57,19 @@ const connector = new SchemaConnector()
       }
     }
   })
+
   .callbackAccessHandler(async (accessToken, callbackAuthentication, callbackUrls) => {
-    accessTokens[accessToken] = {
+    db.addCallback(accessToken, {
       callbackAuthentication,
       callbackUrls
-    }
-    console.log(JSON.stringify(accessTokens, null, 2))
+    })
   })
+
   .integrationDeletedHandler(accessToken => {
-    delete accessTokens[accessToken]
+    db.removeCallback(accessToken)
   });
 
 module.exports = {
   connector: connector,
-  deviceStates: deviceStates,
-  accessTokens: accessTokens
+  deviceStates: deviceStates
 };
